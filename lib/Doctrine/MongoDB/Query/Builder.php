@@ -1421,6 +1421,25 @@ class Builder
     }
 
     /**
+     * Set the current field to a value.
+     *
+     * This is only relevant for insert, update, or findAndUpdate queries. For
+     * update and findAndUpdate queries, the $atomic parameter will determine
+     * whether or not a $setOnInsert operator is used.
+     *
+     * @see Expr::setOnInsert()
+     * @see http://docs.mongodb.org/manual/reference/operator/set/
+     * @param mixed $value
+     * @param boolean $atomic
+     * @return self
+     */
+    public function setOnInsert($value, $atomic = true)
+    {
+        $this->expr->set($value, $atomic && $this->query['type'] !== Query::TYPE_INSERT);
+        return $this;
+    }
+
+    /**
      * Set the read preference for the query.
      *
      * This is only relevant for read-only queries and commands.

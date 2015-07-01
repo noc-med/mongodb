@@ -1046,6 +1046,43 @@ class Expr
     }
 
     /**
+     * Set the current field to a value.
+     *
+     * This is only relevant for insert, update, or findAndUpdate queries. For
+     * update and findAndUpdate queries, the $atomic parameter will determine
+     * whether or not a $setOnInsert operator is used.
+     *
+     * @see Builder::setOnInsert()
+     * @see http://docs.mongodb.org/manual/reference/operator/setOnInsert/
+     * @param mixed $value
+     * @param boolean $atomic
+     * @return self
+     */
+    public function setOnInsert($value, $atomic = true)
+    {
+        $this->requiresCurrentField();
+
+        if ($atomic) {
+            $this->newObj['$setOnInsert'][$this->currentField] = $value;
+            return $this;
+        }
+
+        if (strpos($this->currentField, '.') === false) {
+            $this->newObj[$this->currentField] = $value;
+            return $this;
+        }
+
+        $keys = explode('.', $this->currentField);
+        $current = &$this->newObj;
+        foreach ($keys as $key) {
+            $current = &$current[$key];
+        }
+        $current = $value;
+
+        return $this;
+    }
+
+    /**
      * Specify $size criteria for the current field.
      *
      * @see Builder::size()

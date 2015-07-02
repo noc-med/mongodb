@@ -1435,7 +1435,7 @@ class Builder
      */
     public function setOnInsert($value, $atomic = true)
     {
-        $this->expr->set($value, $atomic && $this->query['type'] !== Query::TYPE_INSERT);
+        $this->expr->setOnInsert($value, $atomic && $this->query['type'] !== Query::TYPE_INSERT);
         return $this;
     }
 

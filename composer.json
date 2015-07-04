@@ -1,5 +1,5 @@
 {
-    "name": "noc-med/mongodb",
+    "name": "nocvp/mongodb",
     "type": "library",
     "description": "Doctrine MongoDB Abstraction Layer",
     "keywords": ["database", "persistence", "mongodb"],
